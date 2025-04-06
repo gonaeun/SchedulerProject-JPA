@@ -1,5 +1,6 @@
 package com.example.schedulerprojectjpa.user.service;
 
+import com.example.schedulerprojectjpa.config.PasswordEncoder;
 import com.example.schedulerprojectjpa.user.dto.UserRequestDto;
 import com.example.schedulerprojectjpa.user.dto.UserResponseDto;
 import com.example.schedulerprojectjpa.user.entity.User;
@@ -13,10 +14,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 생성자 주입
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword())); // 비밀번호를 암호화 상태로 저장
         return new UserResponseDto(userRepository.save(user));
     }
 
