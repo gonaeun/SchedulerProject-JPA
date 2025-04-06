@@ -12,7 +12,7 @@
 ## 🪜 진행 사항
 - [x] API 명세와 ERD 설계
 - [x] 일정 CRUD
-- [ ] 유저 CRUD
+- [x] 유저 CRUD
 - [ ] 회원가입
 - [ ] 로그인(인증)
 - [ ] Validation을 활용한 예외 처리
@@ -27,11 +27,6 @@
 
 ---
 
-## 🎯 스키마 정의서 (Schedule 테이블)
-![image](https://github.com/user-attachments/assets/f25ae9a2-eaf4-46f8-8312-c9fe2f2f195a)
-
-
----
 
 ## 🎯 ERD 다이어그램
 ![image](https://github.com/user-attachments/assets/d42ad82c-cb5b-45c9-b0e4-3721c996e960)
