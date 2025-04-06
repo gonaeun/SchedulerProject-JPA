@@ -15,32 +15,29 @@ import java.util.stream.Collectors;
 
 
 @Service  // 스프링 빈으로 등록
-public class ScheduleServiceImpl implements com.example.schedulerprojectjpa.schedule.service.ScheduleService {
-    private ScheduleRepository scheduleRepository;
+public class ScheduleServiceImpl implements ScheduleService {
+    private final ScheduleRepository scheduleRepository;
 
-    @Autowired
+    @Autowired // 생성자 주입
     public ScheduleServiceImpl(ScheduleRepository scheduleRepository) {
         this.scheduleRepository = scheduleRepository;
-        // 생성자 주입
-        // Service 클래스에서 Repository 사용하려면, Repository를 클래스 안에 넣어줘야함
-        // 이렇게 하면, 스프링이 자동으로 Repository Bean 주입
     }
 
     @Override
     public Schedule saveSchedule(Schedule schedule) {
-        schedule.setCreated_date(LocalDateTime.now());
-        schedule.setUpdated_date(LocalDateTime.now());
-        return scheduleRepository.saveSchedule(schedule);
+//        schedule.setCreated_date(LocalDateTime.now());  // 엔터티에서 JPA Auditing 사용
+//        schedule.setUpdated_date(LocalDateTime.now());  // 엔터티에서 JPA Auditing 사용
+        return scheduleRepository.save(schedule);
     }
 
     @Override
     public List<Schedule> getAllSchedules() {
-        return scheduleRepository.findAllSchedules();
+        return scheduleRepository.findAll();
     }
 
     @Override
     public List<Schedule> getFilteredSchedules(String writer, LocalDate updated_date){
-        return scheduleRepository.findAllSchedules().stream()
+        return scheduleRepository.findAll().stream()
                 .filter(schedule -> {
                     boolean matchWriter = (writer == null || writer.equals(schedule.getWriter()));
                     boolean matchDate = (updated_date == null || updated_date.equals(schedule.getUpdated_date().toLocalDate()));
@@ -52,23 +49,24 @@ public class ScheduleServiceImpl implements com.example.schedulerprojectjpa.sche
     }
 
     @Override
-    public Schedule getScheduleById(Long id) { // Service 계층에선 사용자가 api 읽기 좋게 "get" 표현
-        Schedule schedule =  scheduleRepository.findScheduleById(id);  // Repository 계층에선 실제 데이터를 찾는 "find"대로 표현
-
-        return schedule;
+    public Schedule getScheduleById(Long id) {
+        return scheduleRepository.findById(id);
     }
 
     @Override
     public void deleteSchedule(Long id, String password) {
-        Schedule schedule = scheduleRepository.findScheduleById(id); // 해당 id인 일정 찾기
+        Schedule schedule = getScheduleById(id); // 해당 id인 일정 찾기
 
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+        }
 
-        scheduleRepository.deleteSchedule(id);
+        scheduleRepository.deleteById(id);
     }
 
     @Override
     public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto) {
-        Schedule schedule = scheduleRepository.findScheduleById(id); // 해당 id인 일정 찾기
+        Schedule schedule = getScheduleById(id); // 해당 id인 일정 찾기
 
         // 바꾸고, 저장하고 (업데이트 기본로직)
         // 해당 id인 스케줄의 값을 dto의 값으로 바꾸기
@@ -76,8 +74,8 @@ public class ScheduleServiceImpl implements com.example.schedulerprojectjpa.sche
         schedule.setContent(dto.getContent());
         schedule.setWriter(dto.getWriter());
 
-        scheduleRepository.updateSchedule(schedule);
+        Schedule updated = scheduleRepository.save(schedule);
 
-        return new ScheduleResponseDto(schedule);
+        return new ScheduleResponseDto(updated);
     }
 }
