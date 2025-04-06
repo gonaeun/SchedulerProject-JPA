@@ -23,7 +23,8 @@
 ---
 
 ## 🎯 API 명세
-![image](https://github.com/user-attachments/assets/f95e63ff-6679-4dc0-a5e5-6bde936193cf)
+![image](https://github.com/user-attachments/assets/04572be7-4139-45ec-9b25-bdf8426f151a)
+
 
 ---
 
