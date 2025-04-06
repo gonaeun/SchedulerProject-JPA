@@ -1,5 +1,6 @@
 package com.example.schedulerprojectjpa.schedule.entity;
 
+import com.example.schedulerprojectjpa.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +23,9 @@ public class Schedule {
     @Column(nullable = false) // NOT NULL
     private String title; // 일정 제목
 
-    @Column(nullable = false)
-    private String writer; // 작성자명
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // 작성자명
 
     @Column(nullable = false)
     private String content; // 일정 내용
@@ -38,9 +40,5 @@ public class Schedule {
     @LastModifiedDate // JPA Auditing 사용
     @Column(nullable = false)
     private LocalDateTime updated_date; // 게시물 수정일
-
-//    public void updateTitle(ScheduleRequestDto scheduleRequestDto) {
-//        this.title = scheduleRequestDto.getTitle();
-//    }
 
 }
