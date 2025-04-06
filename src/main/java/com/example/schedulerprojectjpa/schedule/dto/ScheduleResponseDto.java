@@ -16,7 +16,7 @@ public class ScheduleResponseDto {
     private Long id;
     private String title;
     private String content;
-    private String writer;
+    private String username;  // writer을 username으로 수정
     private LocalDateTime created_date;
     private LocalDateTime updated_date;
 
@@ -24,7 +24,7 @@ public class ScheduleResponseDto {
         this.id = schedule.getId();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
-        this.writer = schedule.getWriter();
+        this.username = schedule.getUser().getUsername();
         this.created_date = schedule.getCreated_date();
         this.updated_date = schedule.getUpdated_date();
     }

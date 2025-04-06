@@ -4,6 +4,8 @@ import com.example.schedulerprojectjpa.schedule.dto.ScheduleRequestDto;
 import com.example.schedulerprojectjpa.schedule.dto.ScheduleResponseDto;
 import com.example.schedulerprojectjpa.schedule.entity.Schedule;
 import com.example.schedulerprojectjpa.schedule.repository.ScheduleRepository;
+import com.example.schedulerprojectjpa.user.entity.User;
+import com.example.schedulerprojectjpa.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 @Service  // 스프링 빈으로 등록
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Autowired // 생성자 주입
-    public ScheduleServiceImpl(ScheduleRepository scheduleRepository) {
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository, UserRepository userRepository) {
         this.scheduleRepository = scheduleRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getFilteredSchedules(String writer, LocalDate updated_date){
         return scheduleRepository.findAll().stream()
                 .filter(schedule -> {
-                    boolean matchWriter = (writer == null || writer.equals(schedule.getWriter()));
+                    boolean matchWriter = (writer == null || writer.equals(schedule.getUser().getUsername()));
                     boolean matchDate = (updated_date == null || updated_date.equals(schedule.getUpdated_date().toLocalDate()));
                     return matchWriter || matchDate;  // 하나라도 true면 해당 schedule 객체 포함
                 })
@@ -72,7 +76,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         // 해당 id인 스케줄의 값을 dto의 값으로 바꾸기
         schedule.setTitle(dto.getTitle());  // setTitle() : 스케줄값을 이렇게 세팅할거야 >> 스케줄값을 dto값으로 바꿔줌
         schedule.setContent(dto.getContent());
-        schedule.setWriter(dto.getWriter());
+//        schedule.setWriter(dto.getWriter());
+        // 기존의 writer은 user에서 조회해서 설정
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저 없음"));
+        schedule.setUser(user);
 
         Schedule updated = scheduleRepository.save(schedule);
 

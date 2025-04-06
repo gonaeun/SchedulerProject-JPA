@@ -10,6 +10,6 @@ import lombok.Getter;
 public class ScheduleRequestDto {
     private String title;
     private String content;
-    private String writer;
+    private Long userId;  // writer을 userId로 수정
     private String password;
 }
