@@ -21,7 +21,5 @@ public interface ScheduleService {
     // 해당 id인 일정을 찾아서. password가 일치하면 삭제해줘
 
     ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto);// 선택 일정 수정
-
-//    ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto);
-//    // 해당 id인 일정을 찾아서, 수정 요청 받은 DTO 정보대로 수정해줘
+    // 해당 id인 일정을 찾아서, 수정 요청 받은 DTO 정보대로 수정해줘
 }
