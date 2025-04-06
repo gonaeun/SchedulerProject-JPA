@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +49,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Schedule getScheduleById(Long id) {
-        return scheduleRepository.findById(id);
+        return scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 스케줄을 찾을 수 없습니다."));
     }
 
     @Override
