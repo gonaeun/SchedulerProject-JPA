@@ -24,7 +24,7 @@ public class Schedule {
     private String title; // 일정 제목
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)  // 유저 고유 식별자 필드로 대체
+    @JoinColumn(name = "user_id", nullable = false)  // FK, 유저 고유 식별자 필드로 대체
     private User user; // 작성자명
 
     @Column(nullable = false)
