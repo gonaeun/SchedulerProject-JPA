@@ -1,0 +1,12 @@
+CREATE DATABASE Schedules02;
+USE Schedules02;
+
+create table schedules (
+	id bigint AUTO_INCREMENT PRIMARY KEY,
+    title TEXT NOT NULL COMMENT '일정 제목',
+    writer TEXT NOT NULL COMMENT '작성자명',
+    content TEXT NOT NULL COMMENT '일정 내용',
+    password TEXT NOT NULL COMMENT '비밀번호',
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일',
+    updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일'
+);
