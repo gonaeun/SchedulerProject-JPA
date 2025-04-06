@@ -13,10 +13,10 @@
 - [x] API 명세와 ERD 설계
 - [x] 일정 CRUD
 - [x] 유저 CRUD
-- [ ] 회원가입
+- [x] 회원가입
 - [ ] 로그인(인증)
 - [ ] Validation을 활용한 예외 처리
-- [ ] 비밀번호 암호화
+- [x] 비밀번호 암호화
 - [ ] 댓글 CRUD
 - [ ] 일정 페이징 조회
 
@@ -29,8 +29,10 @@
 
 
 ## 🎯 ERD 다이어그램
-![image](https://github.com/user-attachments/assets/d42ad82c-cb5b-45c9-b0e4-3721c996e960)
+![image](https://github.com/user-attachments/assets/52f92a5c-5cef-48ff-bf71-d7647e55880e)
+
 
 ---
 
 ## 🌕 프로젝트 회고
+기존에 만든 일정관리앱을 jpa방식으로 바꾸는 것에 초점을 맞춰서 진행함. 이전에도 구현하지 못했던 기능들(댓글, 페이징)의 경우 새로 하기에는 시간이 부족했고, LV4 로그인의 경우는 JWT를 활용한 인증/인가 개념을 아직 익히지 못한 정도라서 무작정 코드 쳐보기엔 무리였음
